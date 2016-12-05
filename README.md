@@ -1,7 +1,7 @@
-# purescript-fbp
+# purescript-flow
 Functional Event Driven Flow Based Programming
 
-`purescript-fbp` is an attempt to understand Bare Metal Flow Based Programming([bmfbp](https://bittarvydas.wordpress.com/)) and build a functional variant of it.
+`purescript-flow` is an attempt to understand Bare Metal Flow Based Programming([bmfbp](https://bittarvydas.wordpress.com/)) and build a functional variant of it.
 
 `FBP` is a visual/textual dataflow variant where each process is represented by a box. A `Composite` Box can be composed of more `Composite`boxes and ultimately at the end, we have our `Unit` boxes where we write code to get work done.
 
@@ -17,13 +17,13 @@ The benefits of FBP are:
 
 A constraint of `bmFBP` is no long running processes. This simplifies the scheduler. If a node wants iteration, send a message back to itself.
 
-## purescript-fbp
-Currently in `bmfbp`, the boxes in the application can have side effects. `purescript-fbp` is an attempt to push side effects out of the application, as directives to the interpreter. In this way, we can:
+## purescript-flow
+Currently in `bmfbp`, the boxes in the application can have side effects. `purescript-flow` is an attempt to push side effects out of the application, as directives to the interpreter. In this way, we can:
 * perform easy unit testing. By having `global` ports where requests for effects are sent, one can direct the interpreter to send back fake data and hence we can test our application. This is an alternative to mock objects.
 
 * By making the effects the responsibility of the interpreter, the hope is that the application is environment independent i.e. it can be just dropped into any environment that supports those effects(e.g browser, server, embedded chips). Each environment has it's own interpreter.
 
-* Stateless `Unit` boxes: Unlike `bmFBP`, where the `Unit` stores its state internally, in `purescript-fbp`, `Unit`s have no state. Every Unit will get it's state along with the message fired to it's input port and if it has updated it's state, it has to send it's state along when it finishes execution which it will get back during the next event fired. The interpreter manages state. The idea behind this design is that `Unit`s can be swapped dynamically by the FBP runtime without worrying about lost state and this kind of constraint allows us to run the application possibly on serverless environments like AWS Lambda(which are based on stateless functions)
+* Stateless `Unit` boxes: Unlike `bmFBP`, where the `Unit` stores its state internally, in `purescript-flow`, `Unit`s have no state. Every Unit will get it's state along with the message fired to it's input port and if it has updated it's state, it has to send it's state along when it finishes execution which it will get back during the next event fired. The interpreter manages state. The idea behind this design is that `Unit`s can be swapped dynamically by the FBP runtime without worrying about lost state and this kind of constraint allows us to run the application possibly on serverless environments like AWS Lambda(which are based on stateless functions)
 
 ## Implementation
 * Currently, the scheduler will be sequential as I figure out bmFBP.
