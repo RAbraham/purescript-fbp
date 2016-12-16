@@ -10,12 +10,41 @@ import Test.Spec.Assertions       (shouldEqual)
 import Test.Spec.Reporter.Console (consoleReporter)
 import Node.Process (PROCESS)
 
+data Component a = Component
+  { name :: String
+  , function :: a -> a
+  , inputPorts :: Array String
+  , outputPorts :: Array String
+  }
+
+data Application a = Application (Component a)
+
+data Packet = Packet
+
+sqr :: Int -> Int
+sqr x = x * x
+
+sqrComponent :: Component Int
+sqrComponent = Component
+  { name: "Squarer"
+  , function: sqr
+  , inputPorts: ["in"]
+  , outputPorts: ["out"]
+  }
+
+createApplication :: forall a. Component a  -> Application a
+createApplication component = Application component
+
+eval :: forall a. Packet -> Application a -> Application a
+eval packet application = application
 
 main :: forall t1. Eff ( process :: PROCESS , console :: CONSOLE | t1) Unit
 main = run [consoleReporter] do
-  describe "purescript-spec" do
-    describe "Attributes" do
-      it "awesome" do
+  describe "Thampy" do
+    describe "Basic" do
+      it "runs a single stateless component" do
+        let app = createApplication sqrComponent
+
         let isAwesome = true
         isAwesome `shouldEqual` true
     describe "Features" do
