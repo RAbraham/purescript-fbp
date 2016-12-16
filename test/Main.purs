@@ -11,14 +11,13 @@ import Test.Spec.Reporter.Console (consoleReporter)
 import Node.Process (PROCESS)
 
 
-
 main :: forall t1. Eff ( process :: PROCESS , console :: CONSOLE | t1) Unit
 main = run [consoleReporter] do
   describe "purescript-spec" do
     describe "Attributes" do
       it "awesome" do
         let isAwesome = true
-        isAwesome `shouldEqual` false
+        isAwesome `shouldEqual` true
     describe "Features" do
       it "runs in NodeJS" $ pure unit
       it "runs in the browser" $ pure unit
